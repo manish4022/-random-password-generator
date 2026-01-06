@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Password Generator | Minor Project</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body
+    class="min-h-screen flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1766353134008-bb3b8b99ddd2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center relative">
+
+    <div class="absolute inset-0 bg-black/70"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/90"></div>
+
+    <!-- Glass Card -->
+    <div class="relative z-10 w-[400px] p-10 rounded-2xl
+           bg-white/6 backdrop-blur-xl
+           border border-white/20
+           shadow-[0_0_20px_rgba(59,130,246,0.35)]
+           text-white">
+
+        <h1 class="text-3xl font-extrabold text-center mb-8 tracking-wide">
+            🔐 Password Generator
+        </h1>
+
+        <!-- Password Display -->
+        <div class="relative mb-6">
+            <input type="text" id="passwordDisplay" readonly class="w-full p-4 rounded-lg font-mono text-lg
+               bg-black/40 border border-blue-400/40
+               text-blue-400 placeholder-blue-300
+               focus:outline-none focus:ring-2 focus:ring-blue-500/50" placeholder="Your Secure Password" />
+        </div>
+
+        <!-- Length Slider -->
+        <div class="mb-6">
+            <div class="flex justify-between mb-2 text-sm">
+                <label class="text-gray-300 font-semibold">Password Length</label>
+                <span id="lengthValue" class="text-blue-400 font-bold">12</span>
+            </div>
+            <input type="range" id="lengthSlider" min="6" max="30" value="12" class="w-full h-2 rounded-lg appearance-none cursor-pointer
+               bg-gradient-to-r from-blue-500 to-indigo-600" />
+        </div>
+
+        <!-- Options -->
+        <div class="space-y-3 mb-8 text-sm">
+            <label class="flex items-center gap-3">
+                <input type="checkbox" id="uppercase" checked class="accent-blue-500 w-5 h-5" />
+                <span>Include Uppercase</span>
+            </label>
+
+            <label class="flex items-center gap-3">
+                <input type="checkbox" id="lowercase" checked class="accent-blue-500 w-5 h-5" />
+                <span>Include Lowercase</span>
+            </label>
+
+            <label class="flex items-center gap-3">
+                <input type="checkbox" id="numbers" checked class="accent-blue-500 w-5 h-5" />
+                <span>Include Numbers</span>
+            </label>
+
+            <label class="flex items-center gap-3">
+                <input type="checkbox" id="symbols" class="accent-blue-500 w-5 h-5" />
+                <span>Include Special Characters</span>
+            </label>
+        </div>
+
+        <!-- Button -->
+        <button id="generateBtn" class="w-full py-3 rounded-lg font-bold text-lg
+             bg-gradient-to-r from-blue-500 to-indigo-600
+             hover:from-blue-600 hover:to-indigo-700
+             shadow-lg shadow-blue-500/40
+             transition-all duration-300">
+            Generate Password
+        </button>
+
+    </div>
+
+    <script>
+        const display = document.getElementById("passwordDisplay");
+        const lengthSlider = document.getElementById("lengthSlider");
+        const lengthValue = document.getElementById("lengthValue");
+        const generateBtn = document.getElementById("generateBtn");
+
+        const keys = {
+            uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            lowercase: "abcdefghijklmnopqrstuvwxyz",
+            numbers: "0123456789",
+            symbols: "!@#$%^&*()_+~`|}{[]:;?><,./-=",
+        };
+
+        lengthSlider.addEventListener("input", () => {
+            lengthValue.innerText = lengthSlider.value;
+        });
+
+        function generatePassword() {
+            let charset = "";
+            let generatedPassword = "";
+
+            if (uppercase.checked) charset += keys.uppercase;
+            if (lowercase.checked) charset += keys.lowercase;
+            if (numbers.checked) charset += keys.numbers;
+            if (symbols.checked) charset += keys.symbols;
+
+            if (!charset) {
+                alert("Select at least one option!");
+                return;
+            }
+
+            for (let i = 0; i < lengthSlider.value; i++) {
+                generatedPassword += charset[Math.floor(Math.random() * charset.length)];
+            }
+
+            display.value = generatedPassword;
+        }
+
+        generateBtn.addEventListener("click", generatePassword);
+    </script>
+</body>
+
+</html>
